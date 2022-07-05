@@ -19,7 +19,7 @@ constexpr std::size_t arraySize(T (&)[N]) noexcept // below on
 	return N; // and
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 	const char name[] = "J. P. Briggs"; // name's type is const char[13]
 	const char * ptrToName = name; // array decays to pointer

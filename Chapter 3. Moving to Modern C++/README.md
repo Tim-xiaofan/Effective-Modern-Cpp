@@ -50,3 +50,12 @@ rvalue objects (*this) differently
 * Prefer `const_iterators` to `iterators`
 * In maximally generic code, prefer non-member versions of begin, end,
 rbegin, etc., over their member function counterparts
+
+# Item 14 Declare functions noexcept if they won’t emit exceptions
+## Things to Remember
+* noexcept is part of a function’s interface, and that means that callers may
+depend on it
+* noexcept functions are more optimizable than non-noexcept functions
+* noexcept is particularly valuable for the move operations, swap, memory
+deallocation functions, and destructors
+* Most functions are exception-neutral(中立的) rather than noexcept

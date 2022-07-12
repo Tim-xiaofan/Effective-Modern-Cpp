@@ -19,3 +19,7 @@ Chapter 3. Moving to Modern C++/Item 12 Declare overriding functions override/it
 Chapter 3. Moving to Modern C++/Item 13 Prefer const_iterators to iterators/item13
 Chapter 3. Moving to Modern C++/Item 14 Declare functions noexcept if they won’t emit exceptions/item14
 Chapter 3. Moving to Modern C++/Item 15 Use constexpr whenever possible/item15
+Chapter 3. Moving to Modern C++/Item 09 Prefer alias declarations to typedefs/item9
+Chapter 3. Moving to Modern C++/Item 16 Make const member functions thread safe/item16
+Chapter 3. Moving to Modern C++/Item 07 Distinguish between () and {} when creating objects/item6
+Chapter 3. Moving to Modern C++/Item 08 Prefer nullptr to 0 and NULL/item8

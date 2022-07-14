@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <atomic>
+#include <vector>
 
 using std::endl;
 using std::cout;
@@ -37,12 +38,16 @@ namespace X
 			{
 				if(_rf != nullptr && --(*_rf) == 0)
 				{
+					cout << "x::shared_ptr delete @" << _ptr << endl;
 					delete _ptr;
 					delete _rf;
 				}
 			}
 		public:
-			shared_ptr(T * ptr = nullptr): _ptr(ptr), _rf(new std::atomic<int>(1)){}
+			shared_ptr(T * ptr = nullptr): _ptr(ptr), _rf(new std::atomic<int>(1))
+			{
+				cout << "construct sp for @" << ptr << endl;
+			}
 			~shared_ptr(void) { release(); }
 			
 			shared_ptr(const shared_ptr& sp) noexcept
@@ -138,7 +143,21 @@ namespace X
 	};
 }
 
-class Widget {};
+class Widget 
+{
+	public:
+		Widget(){cout << "construct Widget @" << this << endl;}
+		~Widget(){cout << "destruct Widget @" << this << endl;}
+		void process();
+};
+
+std::vector<X::shared_ptr<Widget> > processWidgets;
+
+void Widget::process()
+{
+	cout << "emplace_back @" << this << endl;
+	processWidgets.emplace_back(this); //add it to list of processed Widgets; this is wrong
+}
 
 int main(int argc, char * argv[])
 {
@@ -210,6 +229,29 @@ int main(int argc, char * argv[])
 		std::unique_ptr<Widget, decltype(deletor)> upw(new Widget, deletor);
 		std::shared_ptr<Widget> spw(new Widget, deletor);
 
+	}
+
+	{
+		cout << "\n# multiple control blocks : UB" << endl;
+		auto pw = new Widget;
+		std::shared_ptr<Widget> spw1(pw);
+		//std::shared_ptr<Widget> spw2(pw); // error! double free
+	}
+
+	{
+		cout << "\n# multiple control blocks: avoid" << endl;
+		auto deletor = [](Widget * w) 
+		{cout << "delete@" << w << endl; delete w;};
+		
+		std::shared_ptr<Widget> spw1(new Widget, deletor);
+		std::shared_ptr<Widget> spw2(spw1);
+	}
+
+	{
+		cout << "\n# lead to multiple control blocks involves the this pointer" << endl;
+		Widget w;
+		w.process();
+		cout << processWidgets[0].count() << endl;
 	}
 	return 0;
 }

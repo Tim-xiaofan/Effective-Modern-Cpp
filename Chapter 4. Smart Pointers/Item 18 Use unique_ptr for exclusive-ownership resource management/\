@@ -1,0 +1,43 @@
+#include <iostream>
+#include <memory>
+
+using std::endl;
+using std::cout;
+
+enum class type:std::uint8_t {Investment, Stock, Bond, RealEstate};
+class Investment {};
+class Stock: public Investment {};
+class Bond: public Investment {};
+class RealEstate:public Investment {};
+
+auto delInvmt = [](Investment * pInvestment)
+{
+	cout << "delete:" << reinterpret_cast<void*>(pInvestment) << endl;
+	delete pInvestment;
+};
+
+template <typename... Ts>
+std::unique_ptr<Investment, decltype(delInvmt)> 
+makeInvestment(std::uint8_t t, Ts&&... params)
+{
+	std::unique_ptr<Investment, decltype(delInvmt)> pInv(nullptr, delInvmt);
+	if(false)
+	{
+		pInv.reset(new Stock(std::forward<Ts>(params)...));
+	}
+	else if(false)
+	{
+		pInv.reset(new Bond(std::forward<Ts>(params)...));
+	}
+	else
+	{
+		pInv.reset(new RealEstate(std::forward)<Ts>(params)...);
+	}
+	return pInv;
+}
+
+int main(int argc, char * argv[])
+{
+	auto pInvestment = makeInvestment
+	return 0;
+}

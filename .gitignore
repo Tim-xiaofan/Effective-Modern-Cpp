@@ -24,3 +24,4 @@ Chapter 3. Moving to Modern C++/Item 16 Make const member functions thread safe/
 Chapter 3. Moving to Modern C++/Item 07 Distinguish between () and {} when creating objects/item6
 Chapter 3. Moving to Modern C++/Item 08 Prefer nullptr to 0 and NULL/item8
 Chapter 3. Moving to Modern C++/Item 17 Understand special member function generation/item17
+Chapter 4. Smart Pointers/Item 18 Use unique_ptr for exclusive-ownership resource management/item18

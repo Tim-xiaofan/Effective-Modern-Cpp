@@ -151,13 +151,60 @@ class Widget
 		void process();
 };
 
+namespace Y
+{
+	class Widget: public std::enable_shared_from_this<Widget>
+	{
+		public:
+			void process();
+	};
+	
+	std::vector<std::shared_ptr<Widget> > processWidgets;
+
+	void Widget::process()
+	{
+		cout << "emplace_back @" << this << endl;
+		processWidgets.emplace_back(shared_from_this()); 
+	}
+}
+
+namespace Z
+{
+	class Widget: public std::enable_shared_from_this<Widget>
+	{
+		public:
+			void process();
+			static std::shared_ptr<Widget> create();
+		private:
+			Widget() = default;
+	};
+	
+	std::vector<std::shared_ptr<Widget> > processWidgets;
+
+	std::shared_ptr<Widget> Widget:: create()
+	{
+		return std::move(std::shared_ptr<Widget>(new Widget));
+	}
+
+	void Widget::process()
+	{
+		cout << "emplace_back @" << this << endl;
+		processWidgets.emplace_back(shared_from_this()); 
+	}
+}
+
 std::vector<X::shared_ptr<Widget> > processWidgets;
 
 void Widget::process()
 {
 	cout << "emplace_back @" << this << endl;
-	processWidgets.emplace_back(this); //add it to list of processed Widgets; this is wrong
+	processWidgets.emplace_back(this); //add it to list of processed Widgets; 
+										//this is wrong
 }
+
+template<typename T, typename ...Args>
+void drop(T &t, Args&... rest)
+{}
 
 int main(int argc, char * argv[])
 {
@@ -248,10 +295,26 @@ int main(int argc, char * argv[])
 	}
 
 	{
-		cout << "\n# lead to multiple control blocks involves the this pointer" << endl;
+		cout << "\n# lead to multiple control blocks involves "
+			"the this pointer" << endl;
 		Widget w;
-		w.process();
-		cout << processWidgets[0].count() << endl;
+		//w.process();
+		//cout << processWidgets[0].count() << endl;
+		drop(w);
+	}
+
+	{
+		cout << "\n# std::enable_shared_from_this" << endl;
+		std::shared_ptr<Y::Widget> spw(new Y::Widget);
+		spw->process();
+		cout << "spw use_count:" << spw.use_count() << endl;
+	}
+
+	{
+		cout << "\n# std::enable_shared_from_this: avoid exception" << endl;
+		auto spw = Z::Widget::create();
+		spw->process();
+		cout << "spw use_count:" << spw.use_count() << endl;
 	}
 	return 0;
 }

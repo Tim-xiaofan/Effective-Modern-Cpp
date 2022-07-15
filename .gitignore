@@ -26,3 +26,4 @@ Chapter 3. Moving to Modern C++/Item 08 Prefer nullptr to 0 and NULL/item8
 Chapter 3. Moving to Modern C++/Item 17 Understand special member function generation/item17
 Chapter 4. Smart Pointers/Item 18 Use unique_ptr for exclusive-ownership resource management/item18
 Chapter 4. Smart Pointers/Item 19 Use shared_ptr for shared-ownership resource management/item19
+Chapter 4. Smart Pointers/Item 20 Use weak_ptr for shared_ptr-like pointers that can dangle/item20

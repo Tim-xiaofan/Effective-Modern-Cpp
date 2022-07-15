@@ -20,3 +20,9 @@ count manipulations
 * Default resource destruction is via `delete`, but custom deleters are supported.
 The type of the deleter has no effect on the type of the `std::shared_ptr`
 * Avoid creating `std::shared_ptrs` from variables of raw pointer type
+
+# Item 20： Use weak_ptr for shared_ptr-like pointers that can dangle
+## Things to Remember
+* Use `std::weak_ptr` for `std::shared_ptr`-like pointers that can dangle
+* Potential use cases for `std::weak_ptr` include caching, observer lists, and the
+prevention of `std::shared_ptr` cycles

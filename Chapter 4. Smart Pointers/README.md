@@ -26,3 +26,15 @@ The type of the deleter has no effect on the type of the `std::shared_ptr`
 * Use `std::weak_ptr` for `std::shared_ptr`-like pointers that can dangle
 * Potential use cases for `std::weak_ptr` include caching, observer lists, and the
 prevention of `std::shared_ptr` cycles
+
+# Item 21: Prefer make_unique and make_shared to direct use of new
+## Things to Remember
+* Compared to direct use of `new`, `make` functions eliminate source code duplica‐
+tion, improve exception safety, and, for `std::make_shared` and `std::allocate_shared`,
+generate code that’s smaller and faster.
+* Situations where use of `make` functions is inappropriate include the need to
+specify custom deleters and a desire to pass braced initializers.
+* For `std::shared_ptrs`, additional situations where make functions may be
+ill-advised include (1) classes with custom memory management and (2) sys‐
+tems with memory concerns, very large objects, and `std::weak_pt`rs that
+outlive the corresponding `std::shared_ptr`s.

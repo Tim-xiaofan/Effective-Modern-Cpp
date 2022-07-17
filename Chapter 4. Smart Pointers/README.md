@@ -38,3 +38,12 @@ specify custom deleters and a desire to pass braced initializers.
 ill-advised include (1) classes with custom memory management and (2) sys‐
 tems with memory concerns, very large objects, and `std::weak_pt`rs that
 outlive the corresponding `std::shared_ptr`s.
+
+# Item 22: When using the Pimpl Idiom, define special member functions in the implementation file
+## Things to Remember
+* The Pimpl Idiom decreases build times by reducing compilation dependencies
+between class clients and class implementations.
+* For `std::unique_ptr` pImpl pointers, declare special member functions in
+the class header, but implement them in the implementation file. Do this even
+if the default function implementations are acceptable.
+* The above advice applies to `std::unique_ptr`, but not to `std::shared_ptr`.

@@ -29,3 +29,4 @@ Chapter 4. Smart Pointers/Item 19 Use shared_ptr for shared-ownership resource m
 Chapter 4. Smart Pointers/Item 20 Use weak_ptr for shared_ptr-like pointers that can dangle/item20
 Chapter 4. Smart Pointers/Item 21 Prefer make_unique and make_shared to direct use of new/item21
 Chapter 4. Smart Pointers/Item 22 When using the Pimpl Idiom, define special member functions in the implementation file/item22
+Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 23 Understand move and forward/item23

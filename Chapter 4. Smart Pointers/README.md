@@ -47,3 +47,11 @@ between class clients and class implementations.
 the class header, but implement them in the implementation file. Do this even
 if the default function implementations are acceptable.
 * The above advice applies to `std::unique_ptr`, but not to `std::shared_ptr`.
+
+# Item 26: Avoid overloading on universal references.
+## Things to Remember
+* Overloading on universal references almost always leads to the universal refer‐
+ence overload being called more frequently than expected.
+* Perfect-forwarding constructors are especially problematic, because they’re
+typically better matches than copy constructors for non-const lvalues, and
+they can hijack derived class calls to base class copy and move constructors.

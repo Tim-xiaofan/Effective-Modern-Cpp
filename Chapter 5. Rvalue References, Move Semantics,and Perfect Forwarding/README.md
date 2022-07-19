@@ -16,3 +16,12 @@ does not occur, `type&&` denotes an rvalue reference.
 * Universal references correspond to rvalue references if they’re initialized with
 rvalues. They correspond to lvalue references if they’re initialized with lval‐
 ues.
+
+# Item 25: Use std::move on rvalue references, std::forward on universal references
+## Things to Remember
+* Apply `std::move` to rvalue references and `std::forward` to universal refer‐
+ences the last time each is used.
+* Do the same thing for rvalue references and universal references being
+returned from functions that return by value.
+* Never apply `std::move` or `std::forward` to local objects if they would other‐
+wise be eligible for the return value optimization.

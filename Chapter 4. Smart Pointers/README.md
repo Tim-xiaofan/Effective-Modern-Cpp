@@ -55,3 +55,12 @@ ence overload being called more frequently than expected.
 * Perfect-forwarding constructors are especially problematic, because they’re
 typically better matches than copy constructors for non-const lvalues, and
 they can hijack derived class calls to base class copy and move constructors.
+
+# Item 27: Familiarize yourself with alternatives to overloading on universal references
+## Things to Remember
+* Alternatives to the combination of universal references and overloading
+include the use of distinct function names, passing parameters by lvalue reference-to-const, passing parameters by value, and using tag dispatch.
+* Constraining templates via std::enable_if permits the use of universal ref‐
+erences and overloading together, but it controls the conditions under which
+compilers may use the universal reference overloads.
+* Universal reference parameters often have efficiency advantages, but they typically have usability disadvantages.

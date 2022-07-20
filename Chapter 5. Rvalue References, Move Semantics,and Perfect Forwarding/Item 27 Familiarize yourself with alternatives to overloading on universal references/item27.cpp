@@ -98,7 +98,7 @@ class Person1
 				!std::is_integral<typename std::remove_reference<T>::type>::value
 				>::type>
 		explicit Person1(T&& n) // forward ctor
-			:name(std::forward<T>(n)){ cout << "Person1::forward ctor" << endl;}
+			:name(std::forward<T>(n)){ cout << "Person1::forwarding ctor" << endl;}
 
 		explicit Person1(int idx) //ctor2
 			:name(nameFromIdx(idx)){ cout << "Person1:: construct from int" << endl;}
@@ -222,5 +222,11 @@ int main(int argc, char * argv[])
 		Person1 p(idx);
 		drop(p);
 	}
+
+#ifdef ERROR1
+	{
+		Person1 p(u"Konrad Zuse");
+	}
+#endif
 	return 0;
 }

@@ -42,3 +42,14 @@ include the use of distinct function names, passing parameters by lvalue referen
 erences and overloading together, but it controls the conditions under which
 compilers may use the universal reference overloads.
 * Universal reference parameters often have efficiency advantages, but they typically have usability disadvantages.
+
+# Item 28: Understand reference collapsing
+## Things to Remember
+* Reference collapsing occurs in four contexts: template instantiation, `auto` type
+generation, creation and use of `typedef`s and alias declarations, and `decltype`
+* When compilers generate a reference to a reference in a reference collapsing
+context, the result becomes a single reference. If either of the original refer‐
+ences is an lvalue reference, the result is an lvalue reference. Otherwise it’s an
+rvalue reference
+* Universal references are rvalue references in contexts where type deduction
+distinguishes lvalues from rvalues and where reference collapsing occurs.

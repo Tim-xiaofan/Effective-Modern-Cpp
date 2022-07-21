@@ -35,6 +35,37 @@ namespace X
 	{
 		return static_cast<T&&>(t);
 	}
+
+	/**
+	  Widget& && forward(Widget& t)
+	  {
+		return static<Widget& &&>(t);
+	  }
+	  reference collapsing -->
+	  Widget& forward(Widget& t)
+	  {
+		return static_cast<Widget&>(t);
+	  }
+	 */
+
+	/**
+	Widget&& && forward(Widget& t)
+	{
+		return static_cast<Widget&& &&>(t);
+	}
+	reference collapsing -->
+	Widget&& forward(Widget& t)
+	{
+		return static_cast<Widget&&>(t);
+	}
+	*/
+
+	template<typename T>
+	class Widget
+	{
+		public:
+			typedef T&& RvalueRefToT;
+	};
 }
 
 int main(int argc, char * argv[])
@@ -55,5 +86,26 @@ int main(int argc, char * argv[])
 		auto& & rx = x;
 	}
 #endif
+
+	{
+		cout << "\n# Reference collapsing occurs in four contexts: auto variables" << endl;
+		Widget w;
+		auto&& w1 = w; //lvalue: Widget& && w1 --> Widget&
+		auto&& w2 = widgetFactory(); // rvalue: Widget && w1 -->Widget&&
+		cout << "int& = int: " << std::boolalpha << std::is_same<int&, int>::value << endl;
+		cout << "w1 = Widget&: " << std::boolalpha << std::is_same<decltype(w1), Widget&>::value << endl;
+		cout << "w2 = Widget&&: " << std::boolalpha << std::is_same<decltype(w2), Widget&&>::value << endl;
+	}
+
+	{	
+		cout << "\n# Reference collapsing occurs in four contexts: typedefs and alias" << endl;
+		cout << "int& && = int&: " << std::boolalpha 
+			<< std::is_same<typename X::Widget<int&>::RvalueRefToT, 
+			int&>::value << endl;
+	}
+
+	{
+		cout << "\n# Reference collapsing occurs in four contexts: decltype" << endl;
+	}
 	return 0;
 }

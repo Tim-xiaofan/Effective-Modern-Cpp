@@ -53,3 +53,9 @@ ences is an lvalue reference, the result is an lvalue reference. Otherwise it’
 rvalue reference
 * Universal references are rvalue references in contexts where type deduction
 distinguishes lvalues from rvalues and where reference collapsing occurs.
+
+# Item 29: Assume that move operations are not present, not cheap, and not used.
+## Things to Remember
+* Assume that move operations are not present, not cheap, and not used.
+* In code with known types or support for move semantics, there is no need for
+assumptions.

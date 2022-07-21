@@ -35,3 +35,4 @@ Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 25 Use 
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 26 Avoid overloading on universal references/item26
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 27 Familiarize yourself with alternatives to overloading on universal references/item27
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 28 Understand reference collapsing/item28
+Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 29 Assume that move operations are not present,not cheap, and not used/item29

@@ -14,7 +14,7 @@ using std::cout;
 using std::cerr;
 using std::string;
 
-#if __cplusplus == 201103
+#if __cplusplus <= 201103
 namespace std
 {//N3656 by Stephan T. Lavavej
 	template<class T> struct _Unique_if {

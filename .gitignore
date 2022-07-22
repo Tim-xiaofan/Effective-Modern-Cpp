@@ -37,3 +37,4 @@ Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 27 Fami
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 28 Understand reference collapsing/item28
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 29 Assume that move operations are not present,not cheap, and not used/item29
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 30 Familiarize yourself with perfect forwarding failure cases/item30
+Chapter 6. Lambda Expressions/Item 31 Avoid default capture modes/item31

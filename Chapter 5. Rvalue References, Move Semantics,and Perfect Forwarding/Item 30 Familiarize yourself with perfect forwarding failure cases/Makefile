@@ -8,7 +8,7 @@ APP = item30
 SRCS-y := *.cpp 
 
 # Add flag 
-CPPFLAGS += -g -Wall -std=c++11 # -DERROR
+CPPFLAGS += -g -Wall -std=c++11 #-DERROR5
 
 $(APP): $(SRCS-y) Makefile 
 	$(CXX) $(CPPFLAGS) $(SRCS-y) -o $@

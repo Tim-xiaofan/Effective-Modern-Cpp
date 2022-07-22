@@ -17,7 +17,7 @@ does not occur, `type&&` denotes an rvalue reference.
 rvalues. They correspond to lvalue references if they’re initialized with lval‐
 ues.
 
-# Item 25: Use std::move on rvalue references, std::forward on universal references
+# Item 25: Use std::move on rvalue references, std::forward on universal references.
 ## Things to Remember
 * Apply `std::move` to rvalue references and `std::forward` to universal refer‐
 ences the last time each is used.
@@ -34,7 +34,7 @@ ence overload being called more frequently than expected.
 typically better matches than copy constructors for non-const lvalues, and
 they can hijack derived class calls to base class copy and move constructors.
 
-# Item 27: Familiarize yourself with alternatives to overloading on universal references
+# Item 27: Familiarize yourself with alternatives to overloading on universal references.
 ## Things to Remember
 * Alternatives to the combination of universal references and overloading
 include the use of distinct function names, passing parameters by lvalue reference-to-const, passing parameters by value, and using tag dispatch.
@@ -43,7 +43,7 @@ erences and overloading together, but it controls the conditions under which
 compilers may use the universal reference overloads.
 * Universal reference parameters often have efficiency advantages, but they typically have usability disadvantages.
 
-# Item 28: Understand reference collapsing
+# Item 28: Understand reference collapsing.
 ## Things to Remember
 * Reference collapsing occurs in four contexts: template instantiation, `auto` type
 generation, creation and use of `typedef`s and alias declarations, and `decltype`
@@ -59,3 +59,11 @@ distinguishes lvalues from rvalues and where reference collapsing occurs.
 * Assume that move operations are not present, not cheap, and not used.
 * In code with known types or support for move semantics, there is no need for
 assumptions.
+
+# Item 30: Familiarize yourself with perfect forwarding failure cases.
+## Things to Remember
+* Perfect forwarding fails when template type deduction fails or when it deduces
+the wrong type.
+* The kinds of arguments that lead to perfect forwarding failure are braced ini‐
+tializers, null pointers expressed as 0 or NULL, declaration-only integral const
+static data members, template and overloaded function names, and bitfields.

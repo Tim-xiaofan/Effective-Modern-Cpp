@@ -40,3 +40,5 @@ Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 30 Fami
 Chapter 6. Lambda Expressions/Item 31 Avoid default capture modes/item31
 Chapter 6. Lambda Expressions/Item 32 Use init capture to move objects into closures/item32
 Chapter 6. Lambda Expressions/Item 33 Use decltype on auto&& parameters to forward them/item31
+Chapter 6. Lambda Expressions/Item 33 Use decltype on auto&& parameters to forward them/item33
+Chapter 6. Lambda Expressions/Item 34 Prefer lambdas to bind/item34

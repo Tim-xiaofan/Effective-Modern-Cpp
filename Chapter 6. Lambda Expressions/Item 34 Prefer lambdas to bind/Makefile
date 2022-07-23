@@ -2,7 +2,7 @@
 # Copyright(c) 2010-2014 Intel Corporation
 
 # binary name
-APP = item33
+APP = item34
 
 # all source are stored in SRCS-y
 SRCS-y := *.cpp 

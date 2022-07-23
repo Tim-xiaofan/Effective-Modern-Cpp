@@ -12,3 +12,10 @@ and it misleadingly suggests that lambdas are self-contained.
 # Item 33: Use decltype on auto&& parameters to std::forward them.
 ## Things to Remember
 * Use `decltype` on `auto&&` parameters to `std::forward` them.
+
+# Item 34: Prefer lambdas to std::bind.
+## Things to Remember
+* Lambdas are more readable, more expressive, and may be more efficient than
+using `std::bind`.
+* In C++11 only, `std::bind` may be useful for implementing move capture or
+for binding objects with templatized function call operators.

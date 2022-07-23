@@ -39,3 +39,4 @@ Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 29 Assu
 Chapter 5. Rvalue References, Move Semantics,and Perfect Forwarding/Item 30 Familiarize yourself with perfect forwarding failure cases/item30
 Chapter 6. Lambda Expressions/Item 31 Avoid default capture modes/item31
 Chapter 6. Lambda Expressions/Item 32 Use init capture to move objects into closures/item32
+Chapter 6. Lambda Expressions/Item 33 Use decltype on auto&& parameters to forward them/item31

@@ -8,3 +8,7 @@ and it misleadingly suggests that lambdas are self-contained.
 ## Things to Remember
 * Use C++14’s init capture to move objects into closures.
 * In C++11, emulate init capture via hand-written classes or `std::bind`.
+
+# Item 33: Use decltype on auto&& parameters to std::forward them.
+## Things to Remember
+* Use `decltype` on `auto&&` parameters to `std::forward` them.

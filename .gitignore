@@ -43,3 +43,4 @@ Chapter 6. Lambda Expressions/Item 33 Use decltype on auto&& parameters to forwa
 Chapter 6. Lambda Expressions/Item 33 Use decltype on auto&& parameters to forward them/item33
 Chapter 6. Lambda Expressions/Item 34 Prefer lambdas to bind/item34
 Chapter 7. The Concurrency API/Item 35 Prefer task-based programming to thread based/item35
+Chapter 7. The Concurrency API/Item 36 Specify async if asynchronicity is essential/item36

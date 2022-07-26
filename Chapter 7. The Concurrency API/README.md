@@ -14,3 +14,10 @@ synchronous task execution.
 that the task may never execute, and affects program logic for timeout-based
 `wait` calls.
 * Specify `std::launch::async` if asynchronous task execution is essential.
+
+# Item 37: Make std::threads unjoinable on all paths.
+## Things to Remember
+* Make `std::thread`s unjoinable on all paths.
+* `join`-on-destruction can lead to difficult-to-debug performance anomalies.
+* `detach`-on-destruction can lead to difficult-to-debug undefined behavior.
+* Declare `std::thread` objects last in lists of data members.

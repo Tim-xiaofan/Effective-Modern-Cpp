@@ -17,12 +17,13 @@ std::condition_variable cv; // condvar for event
 std::mutex m; // mutex for use with cv
 std::atomic<bool> flag{false};
 
+bool flag1(false);
+
 static void
 work(void)
 {
 	usleep(20);
 	std::unique_lock<std::mutex> lk(m); // lock mutex
-	//cout << "Waiting..." << endl;
 	printf("Thread-%ld waiting...\n", pthread_self());
 	cv.wait(lk);// wait for notify;
 }
@@ -32,6 +33,13 @@ work1(void)
 {
 	while(!flag);
 	printf("Thread-%ld exit\n", pthread_self());
+}
+
+static void
+work2(void)
+{
+	std::unique_lock<std::mutex> lk(m); // as before
+	cv.wait(lk, [](){return flag1;});
 }
 
 int main(int argc, char * argv[])
@@ -52,6 +60,10 @@ int main(int argc, char * argv[])
 		sleep(1);
 		printf("Thread-%ld set flag...\n", pthread_self());
 		flag = true;
+	}
+
+	{
+		cout << "\n# combine the condvar and flag-based designs" << endl;
 	}
 	cout << "All done." << endl;
 	return 0;

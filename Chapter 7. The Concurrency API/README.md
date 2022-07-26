@@ -21,3 +21,9 @@ that the task may never execute, and affects program logic for timeout-based
 * `join`-on-destruction can lead to difficult-to-debug performance anomalies.
 * `detach`-on-destruction can lead to difficult-to-debug undefined behavior.
 * Declare `std::thread` objects last in lists of data members.
+
+# Item 38: Be aware of varying thread handle destructor behavior
+## Things to Remember
+* Future destructors normally just destroy the future’s data members.
+* The final future referring to a shared state for a non-deferred task launched
+via `std::async` blocks until the task completes.

@@ -48,3 +48,4 @@ Chapter 7. The Concurrency API/Item 37 Make threads unjoinable on all paths/item
 Chapter 7. The Concurrency API/Item 38
 Chapter 7. The Concurrency API/Item 38 Be aware of varying thread handle destructor behavior/item38
 Chapter 7. The Concurrency API/Item 39 Consider void futures for one-shot event communication/item39
+Chapter 7. The Concurrency API/Item 40 Use atomic for concurrency, volatile for special memory/item40

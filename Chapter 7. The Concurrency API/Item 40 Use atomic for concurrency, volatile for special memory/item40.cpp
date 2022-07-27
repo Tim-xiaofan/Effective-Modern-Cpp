@@ -81,5 +81,34 @@ int main(int argc, char *argv[])
 	cout << "ac:" << ac << endl;
 	cout << "vc:" << vc << endl;
 	cout << "All done." << endl;
+
+	{
+		cout << "\n# volatile is the way we tell compilers "
+			"that we’re dealing with special memory" << endl;
+		volatile int x; //read x
+		auto y = x; // read x again (can't be optimized away)
+
+		cout << std::boolalpha << std::is_same<volatile int, decltype(y)>::value << endl;
+		cout << std::boolalpha << std::is_same<int, decltype(y)>::value << endl;
+
+		x = 10; // write x (can't be optimized away)
+		x = 20; // write x again
+	}
+
+	{
+		cout << "\n# std::atomic" << endl;
+		std::atomic<int> x{110};
+		std::atomic<int> y(x.load());
+		y.store(x.load());
+		cout << x << endl;
+		cout << y << endl;
+	}
+
+	{
+		cout << "\n# a memory-mapped I/O location that was "
+			"concurrently accessed by multiple threads" << endl;
+		volatile std::atomic<int> vai{111};
+		cout << vai << endl;
+	}
 	return 0;
 }

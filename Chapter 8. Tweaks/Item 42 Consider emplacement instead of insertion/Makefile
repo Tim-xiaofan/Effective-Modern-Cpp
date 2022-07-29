@@ -2,13 +2,13 @@
 # Copyright(c) 2010-2014 Intel Corporation
 
 # binary name
-APP = item41
+APP = item42
 
 # all source are stored in SRCS-y
 SRCS-y := *.cpp 
 
 # Add flag 
-CPPFLAGS += -g -Wall -std=c++11 
+CPPFLAGS += -g -Wall -std=c++11 #-DERROR1 
 
 $(APP): $(SRCS-y) Makefile 
 	$(CXX) $(CPPFLAGS) $(SRCS-y) -o $@ 

@@ -1,0 +1,14 @@
+| Concept             | Description                                  | Usage Scenario                                   | Example                                                                                         |
+|---------------------|----------------------------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| Duration            | Represents a time span.                     | Measuring time intervals.                        | `std::chrono::duration<int, std::ratio<1, 1000>>` for a millisecond duration.               |
+| Time Point          | Represents a specific point in time.        | Recording event timestamps.                     | `std::chrono::time_point<std::chrono::system_clock>` for system clock time points.          |
+| Clocks              | Provide time measurement references.        | Timing program execution.                       | `std::chrono::system_clock`, `std::chrono::steady_clock`, `std::chrono::high_resolution_clock` |
+| Time Units          | Predefined time unit types.                 | Expressing time intervals.                      | `std::chrono::seconds`, `std::chrono::milliseconds`, etc.                                    |
+| Time Point Arithmetic | Perform operations with time points and durations. | Measuring elapsed time.                        | `start_time + std::chrono::seconds(5)` to add 5 seconds to a time point.                    |
+| Duration Casts      | Convert between different duration types.  | Converting units of time.                       | `std::chrono::duration_cast<std::chrono::minutes>(duration)` for duration conversion.        |
+| Clock-Specific Time Points | Time points tied to specific clocks.   | Tracking events across different clocks.         | Using `std::chrono::time_point` instances from different clocks.                              |
+| Duration Arithmetic | Perform operations on duration objects.     | Calculating time differences or offsets.        | `duration1 - duration2` for adding two durations.                                            |
+| Clock Conversions   | Convert time points between clocks.        | Comparing timestamps from different clocks.     | `std::chrono::time_point_cast` for clock conversion.                                         |
+| Clock Durations     | Each clock has an associated duration type. | Measuring elapsed time with specific clock.     | `std::chrono::system_clock::duration` for tick period of the system clock.                    |
+| Time Point Comparison | Compare time points using operators.       | Determining event order or time differences.    | `time_point1 < time_point2` to compare two time points.                                     |                       |
+

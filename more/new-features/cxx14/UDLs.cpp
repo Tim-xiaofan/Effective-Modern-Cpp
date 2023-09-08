@@ -58,7 +58,7 @@ constexpr auto operator""_b(const char* binaryString)
 
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
 	{ // 自定义
 		constexpr auto hours = 5_h;
@@ -81,6 +81,14 @@ int main(void)
 	}
 
 	{ // 自定义二进制字面量
+		static_assert(len("110") == 3);
+		constexpr int l = len("110");
+		static_assert(l == 3);
+		static_assert(strlen("110") == 3);
+		constexpr int l1 = strlen("110");
+		static_assert(l1 == 3);
+		//std::string str(argv[0]);
+		//static_assert(str.size() == 3); error: non-constexpr
 		constexpr auto i = 110_b;
 		static_assert(i == 6);
 	}

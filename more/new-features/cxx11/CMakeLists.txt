@@ -13,3 +13,5 @@ add_executable(ratio chrono/ratio.cpp)
 add_executable(duration chrono/duration.cpp)
 add_executable(time_point chrono/time_point.cpp)
 add_executable(clock chrono/clock.cpp)
+
+add_subdirectory(concurrency)

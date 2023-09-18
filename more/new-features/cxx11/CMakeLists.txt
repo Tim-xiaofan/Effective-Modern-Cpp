@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "-g -O3 -Wall -Werror -std=c++11 ${CMAKE_CXX_FLAGS}")
 message(STATUS "CMAKE_CXX_COMPILER_VERSION:${CMAKE_CXX_COMPILER_VERSION}, CMAKE_C_COMPILER_VERSION:${CMAKE_C_COMPILER_VERSION}")
 
 # Set the minimum required compiler version
-set(MIN_REQUIRED_COMPILER_VERSION "4.8.5")
+set(MIN_REQUIRED_COMPILER_VERSION "4.8.1")
 
 # Check if the compiler version is greater than or equal to the minimum required version
 if(${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER_EQUAL ${MIN_REQUIRED_COMPILER_VERSION})

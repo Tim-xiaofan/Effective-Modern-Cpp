@@ -18,3 +18,6 @@ target_link_libraries(release-acquire-order pthread atomic)
 
 add_executable(release-consume-order release-consume-order.cpp)
 target_link_libraries(release-consume-order pthread atomic)
+
+add_executable(seq_cst-order seq_cst-order.cpp)
+target_link_libraries(seq_cst-order pthread atomic)

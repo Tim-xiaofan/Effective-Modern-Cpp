@@ -21,3 +21,19 @@ target_link_libraries(release-consume-order pthread atomic)
 
 add_executable(seq_cst-order seq_cst-order.cpp)
 target_link_libraries(seq_cst-order pthread atomic)
+
+add_executable(ATOMIC_XXX_LOCK_FREE ATOMIC_XXX_LOCK_FREE.cpp)
+target_link_libraries(ATOMIC_XXX_LOCK_FREE pthread atomic)
+
+add_executable(atomic_flag atomic_flag.cpp)
+target_link_libraries(atomic_flag pthread atomic)
+
+add_executable(atomic_bool atomic_bool.cpp)
+target_link_libraries(atomic_bool pthread atomic)
+
+add_executable(atomic_int atomic_int.cpp)
+set_source_files_properties(atomic_int.cpp PROPERTIES COMPILE_FLAGS "-g" )
+target_link_libraries(atomic_int pthread atomic)
+
+add_executable(rwlock rwlock.cpp)
+target_link_libraries(rwlock pthread atomic)

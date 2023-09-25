@@ -40,3 +40,6 @@ target_link_libraries(rwlock pthread atomic)
 
 add_executable(barrier1 barrier.cpp)
 target_link_libraries(barrier1 pthread atomic)
+
+add_executable(user_define_type_atomic user_define_type_atomic.cpp)
+target_link_libraries(user_define_type_atomic pthread atomic)

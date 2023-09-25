@@ -105,7 +105,6 @@ std::chrono::steady_clock::duration work_thread(int id)
 				mutex.write_lock();
 				data = distributor(generator);
 				mutex.write_unlock();
-				std::this_thread::sleep_for(std::chrono::seconds(1));
 			}
 		}
 	}
@@ -142,7 +141,6 @@ std::chrono::steady_clock::duration work_thread1(int id)
 			{
 				std::lock_guard<ticketlock> lock(mutex1);
 				data = distributor(generator);
-				std::this_thread::sleep_for(std::chrono::seconds(1));
 			}
 		}
 	}
@@ -180,7 +178,6 @@ std::chrono::steady_clock::duration work_thread2(int id)
 			{
 				std::lock_guard<std::mutex> lock(mutex2);
 				data = distributor(generator);
-				std::this_thread::sleep_for(std::chrono::seconds(1));
 			}
 		}
 	}
@@ -212,7 +209,7 @@ int main()
 	const int n = std::thread::hardware_concurrency();
 	assert(n > 1);
 
-	std::uint64_t durations[3] = {0, 0, 0};
+	double durations[3] = {0, 0, 0};
 	func_t funcs[3] = {work_thread, work_thread1, work_thread2};
 	const std::string names[] = {"rwlock", "ticketlock", "std::mutex"};
 
@@ -237,7 +234,7 @@ int main()
 		std::cout << "\taverage:    " << duration.count() / n << std::endl;
 		std::cout << "\taverage:    " << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() / n  << "ms" << std::endl;
 		number_reading.store(0, std::memory_order_relaxed);
-		durations[k] = duration.count() / n;
+		durations[k] = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() *1.0 /n;
 	}
 	std::cout << "***statistics\n";
 	std::cout << "\tticketlock percentage: " << (durations[1] - durations[0]) * 1.0/ durations[1] * 100  << "%" << std::endl;

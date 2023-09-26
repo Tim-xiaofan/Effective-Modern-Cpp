@@ -15,3 +15,7 @@ target_link_libraries(count_down_latch pthread)
 
 add_executable(barrier barrier.cpp)
 target_link_libraries(barrier pthread)
+
+add_executable(cv_rwlock cv_rwlock.cpp)
+target_link_libraries(cv_rwlock pthread)
+set_source_files_properties(cv_rwlock.cpp PROPERTIES COMPILE_FLAGS "-std=c++17" )

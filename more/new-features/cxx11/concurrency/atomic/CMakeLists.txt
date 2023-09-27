@@ -43,3 +43,6 @@ target_link_libraries(barrier1 pthread atomic)
 
 add_executable(user_define_type_atomic user_define_type_atomic.cpp)
 target_link_libraries(user_define_type_atomic pthread atomic)
+
+add_executable(atomic_thread_fence atomic_thread_fence.cpp)
+target_link_libraries(atomic_thread_fence pthread atomic)

@@ -23,9 +23,34 @@ class nocopyable
 	public:
 		nocopyable() {}
 		nocopyable(const nocopyable&) = delete;
-		nocopyable operator=(const nocopyable&) = delete;
+		nocopyable& operator=(const nocopyable&) = delete;
 };
 
+class ticketlock
+{ //FIFO
+	public:
+		ticketlock() : turn_(0), ticket_(0) {}
+
+		void lock()
+		{
+			int me = ticket_.fetch_add(1, std::memory_order_relaxed);
+			while(me != turn_.load(std::memory_order_acquire))
+			{
+			}
+		}
+
+		void unlock()
+		{
+			int new_turn = turn_.load(std::memory_order_relaxed); 
+			turn_.store(new_turn + 1, std::memory_order_release);
+		}
+
+	private:
+		std::atomic_int turn_;
+		std::atomic_int ticket_;
+};
+
+template<typename M=std::mutex>
 class rwlock: nocopyable
 { // 存在写饥饿
 	public:
@@ -348,9 +373,17 @@ std::chrono::steady_clock::duration work_thread(int id, std::mutex& mutex)
 }
 
 using funct_t = std::function<std::chrono::steady_clock::duration (int)>;
-const int N = 6;
+const int N = 7;
 const int cpus = std::thread::hardware_concurrency();
-const std::string names[N] = {"std::mutex", "rwlock", "rwlock_write_first", "atomic_rwlock", "pthread_rwlock", "std::shared_mutex"};
+const std::string names[N] = {
+	"std::mutex",
+	"rwlock<std::mutex>",
+	"rwlock_write_first",
+	"atomic_rwlock",
+	"pthread_rwlock",
+	"std::shared_mutex",
+	"rwlock<ticketlock>"
+};
 
 std::mutex mutex;
 rwlock mutex1;
@@ -358,6 +391,7 @@ rwlock_write_first mutex2;
 atomic_rwlock mutex3;
 pthread_rwlock mutex4;
 std::shared_mutex mutex5;
+rwlock<ticketlock> mutex6;
 
 }
 
@@ -372,6 +406,7 @@ int main(void)
 	funcs[3] = [](int id) { return work_thread(id, mutex3); };
 	funcs[4] = [](int id) { return work_thread(id, mutex4); };
 	funcs[5] = [](int id) { return work_thread(id, mutex5); };
+	funcs[6] = [](int id) { return work_thread(id, mutex6); };
 
 	std::cout << "MAX_NUMBER: " << MAX_NUMBER << std::endl;
 	std::cout << "PER_NUMBER: " << PER_NUMBER << std::endl;

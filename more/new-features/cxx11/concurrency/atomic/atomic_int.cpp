@@ -12,7 +12,7 @@ static_assert(ATOMIC_BOOL_LOCK_FREE == 2);
 
 // 参考 DPDK rte_ticketlock.h
 class ticketlock
-{ // 时间公平：先到先获得锁, 避免线程饥饿
+{ // 时间公平：先到先获得锁, 避免线程饥饿(FIFO)
 	public:
 		ticketlock() : turn_(0), ticket_(0) {}
 

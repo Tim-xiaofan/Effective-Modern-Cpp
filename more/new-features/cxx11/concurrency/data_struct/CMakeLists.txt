@@ -10,4 +10,4 @@ set_source_files_properties(test_queue.cpp PROPERTIES COMPILE_FLAGS "-std=c++14"
 
 add_executable(test_threadsafe_queue test_threadsafe_queue.cpp)
 target_link_libraries(test_threadsafe_queue pthread)
-set_source_files_properties(test_threadsafe_queue.cpp PROPERTIES COMPILE_FLAGS "-std=c++14 -g -O0" )
+set_source_files_properties(test_threadsafe_queue.cpp PROPERTIES COMPILE_FLAGS "-std=c++14" )

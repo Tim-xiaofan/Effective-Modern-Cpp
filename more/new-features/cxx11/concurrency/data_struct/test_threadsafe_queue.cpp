@@ -2,6 +2,8 @@
 #include "threadsafe_std_queue.h"
 #include "threadsafe_queue_with_dummy_node.h"
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <future>
 #include <vector>
 #include <mutex>
@@ -13,6 +15,7 @@
 #include <chrono>
 #include <functional>
 #include <string>
+#include <algorithm>
 #include <boost/lockfree/queue.hpp>
 
 //#define DEBUG 1
@@ -29,8 +32,12 @@ thread_local std::uniform_int_distribution<int> distributor(10, 20);
 
 std::atomic_uint push_count{0};
 std::atomic_uint pop_count{0};
+std::chrono::steady_clock::time_point start;
+std::chrono::steady_clock::time_point end;
+std::atomic_int customers;
+std::atomic_flag first_producer;
 constexpr unsigned MAX_LOOP = 1000 * 10000;
-constexpr unsigned CAPACITY = 1024 * 4;
+constexpr unsigned CAPACITY = 1024;
 
 template<typename Q>
 void customer(int id, Q& q)
@@ -57,6 +64,11 @@ void customer(int id, Q& q)
 				break;
 			}
 		}
+	}
+	// last customer
+	if(customers.fetch_sub(1, std::memory_order_relaxed) == 1)
+	{
+		end = std::chrono::steady_clock::now();
 	}
 }
 
@@ -86,12 +98,21 @@ void customer(int id, boost::lockfree::queue<T, boost::lockfree::capacity<CAPACI
 			}
 		}
 	}
+	// last customer
+	if(customers.fetch_sub(1, std::memory_order_relaxed) == 1)
+	{
+		end = std::chrono::steady_clock::now();
+	}
 }
 
 template<typename Q>
 void producer(int id, Q& q)
 {
 	pthread_setname_np(pthread_self(), "producer");
+	if(first_producer.test_and_set(std::memory_order_relaxed) == false)
+	{// fisrt producer
+		start = std::chrono::steady_clock::now();
+	}
 	while(true)
 	{
 		auto i = push_count.fetch_add(1, std::memory_order_relaxed);
@@ -118,6 +139,10 @@ template<typename T>
 void producer(int id, boost::lockfree::queue<T, boost::lockfree::capacity<CAPACITY>>& q)
 {
 	pthread_setname_np(pthread_self(), "producer");
+	if(first_producer.test_and_set(std::memory_order_relaxed) == false)
+	{// fisrt producer
+		start = std::chrono::steady_clock::now();
+	}
 	while(true)
 	{
 		auto i = push_count.fetch_add(1, std::memory_order_relaxed);
@@ -254,7 +279,7 @@ using func_t = std::function<void (int)>;
 int main()
 {
 	const int cpus = std::thread::hardware_concurrency();
-	assert(cpus > 0);
+	assert(cpus > 1);
 
 	test_queue<threadsafe_single_list_queue<A>>();
 	test_queue<threadsafe_std_queue<A>>();
@@ -264,34 +289,57 @@ int main()
 	threadsafe_single_list_queue<unsigned> q1;
 	threadsafe_queue_with_dummy_node<unsigned> q2;
 	boost::lockfree::queue<unsigned, boost::lockfree::capacity<CAPACITY>> q3;
+	constexpr size_t total_size = MAX_LOOP * sizeof(unsigned);
 
 	func_t funcs[N];
 	funcs[0] = [&q](int id) { work_thread(id, q); };
 	funcs[1] = [&q1](int id) { work_thread(id, q1); };
 	funcs[2] = [&q2](int id) { work_thread(id, q2); };
 	funcs[3] = [&q3](int id) { work_thread(id, q3); };
-	std::string names[N] = {"threadsafe_std_queue", "threadsafe_single_list_queue", "threadsafe_queue_with_dummy_node", "boost::lockfree::queue"};
+	std::string names[N] = {
+		"threadsafe_std_queue",
+		"threadsafe_single_list_queue",
+		"threadsafe_queue_with_dummy_node",
+		"boost::lockfree::queue"};
 
 	std::cout << "MAX_LOOP: " << MAX_LOOP << std::endl;
-	for(int n = 0; n < N; ++n)
+	size_t width = 0;
+	for(int i = 0; i < N; ++i)
 	{
-		std::cout << "***" << names[n] << std::endl;
-		std::vector<std::future<void>> futs;
-		auto start = std::chrono::steady_clock::now();
-		for(int i = 0; i < cpus; ++i)
+		width = std::max(width, names[i].size());
+	}
+	for(int i = 0; i < N; ++i)
+	{
+		std::cout << '\t' << std::left << std::setw(width) << names[i];
+	}
+	std::cout << std::endl;
+	for(int c = 2; c <= cpus; c+= 2)
+	{
+		std::cout << "c=" << c;
+		std::flush(std::cout);
+		for(int n = 0; n < N; ++n)
 		{
-			futs.emplace_back(std::async(funcs[n], i));
+			customers.store(c/2, std::memory_order_relaxed);
+			std::vector<std::future<void>> futs;
+			for(int i = 0; i < c; ++i)
+			{
+				futs.emplace_back(std::async(funcs[n], i));
+			}
+			for(auto& f: futs)
+			{
+				f.wait();
+			}
+			auto us = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(us);
+			std::stringstream oss;
+			oss << ms.count() << "ms(" << total_size / ms.count() << "B/ms)";
+			std::cout << '\t' << std::left << std::setw(width) << oss.str();
+			std::flush(std::cout);
+			pop_count.store(0, std::memory_order_relaxed);
+			push_count.store(0, std::memory_order_relaxed);
+			first_producer.clear(std::memory_order_relaxed);
 		}
-		for(auto& f: futs)
-		{
-			f.wait();
-		}
-		auto us = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start);
-		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(us);
-		std::cout << "\tin us: " << us.count() << "us\n";
-		std::cout << "\tin ms: " << ms.count() << "ms\n\n";
-		pop_count.store(0, std::memory_order_relaxed);
-		push_count.store(0, std::memory_order_relaxed);
+		std::cout << std::endl;
 	}
 	return 0;
 }

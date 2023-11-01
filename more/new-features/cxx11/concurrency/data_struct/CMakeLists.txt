@@ -13,3 +13,5 @@ target_link_libraries(test_threadsafe_queue pthread)
 set_source_files_properties(test_threadsafe_queue.cpp PROPERTIES COMPILE_FLAGS "-std=c++14" )
 
 add_executable(test_loockup_table test_loockup_table.cpp)
+
+add_executable(test_threadsafe_lookup_table test_threadsafe_lookup_table.cpp test_loockup_table_utils.cpp)

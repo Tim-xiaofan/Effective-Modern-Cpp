@@ -22,7 +22,7 @@ def get_option():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--program', required=True, dest='program')
     parser.add_argument('-m', '--mode', required=False, default="all", dest='mode',\
-                help='test mode<random-shuffle-inserts|random-full-inserts|all>')
+                help='test mode<random-shuffle-inserts|random-full-inserts|...|all>')
     return parser.parse_args()
 
 def call_program(p, mode):
@@ -34,9 +34,12 @@ def call_program(p, mode):
         words = o.strip().split(',')
         time.append(float(words[0].replace('s', '')))
         memory.append(int(words[1].replace('bytes', '')))
-    print('keys,\ttime,\tmemory')
-    for e in zip(num_keys, time, memory):
-        print('{}, {}, {}'.format(e[0], e[1], e[2]))
+    with open(os.path.basename(p) + '-' + mode + '.csv', 'w') as f:
+        print('keys,\ttime,\tmemory')
+        f.write('keys,time\n')
+        for e in zip(num_keys, time, memory):
+            print('{}, {}, {}'.format(e[0], e[1], e[2]))
+            f.write('{}, {}\n'.format(e[0], e[1]))
 
 def mode_test(p, mode):
     if mode == 'all':

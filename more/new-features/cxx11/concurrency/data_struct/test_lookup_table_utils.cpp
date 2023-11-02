@@ -1,4 +1,4 @@
-#include "test_loockup_table_utils.h"
+#include "test_lookup_table_utils.h"
 
 #include <iostream>
 #include <vector>

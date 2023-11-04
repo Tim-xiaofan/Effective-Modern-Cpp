@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import subprocess
 import os
+import argparse
 
 modes = ["random-shuffle-inserts",\
         "random-full-inserts",\
@@ -19,9 +20,20 @@ programes = ["test_lookup_table",\
 path = './concurrency/data_struct/'
     
 def main():
-    for p in programes:
-        o = subprocess.check_output(['./test_lookup_table.py', '-p', path + p]).decode('utf-8')
-        print(o)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-r', '--regenerate',\
+                action='store_true',\
+                help='regenerate csv files')
+    args = parser.parse_args();
+    if(args.regenerate):
+        print("regenerate csv files first")
+        for p in programes:
+            o = subprocess.check_output(\
+                        ['./test_lookup_table.py', '-p', path + p])\
+                            .decode('utf-8')
+            print(o)
+    else:
+        print("generate images from existing csv files")
 
     for m in modes:
         args = ['./script.py', '-f']

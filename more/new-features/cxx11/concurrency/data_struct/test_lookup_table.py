@@ -15,7 +15,26 @@ modes = ["random-shuffle-inserts",\
         "random-full-read-half",\
         "random-full-iteration"
 ]
-num_keys = [500 * KB, 1 * MB, 1.5 *MB, 2.0 * MB, 2.5 *MB, 3.0 * MB]
+num_keys = [500 * KB,\
+           1.0 * MB,\
+           1.5 * MB,\
+           2.0 * MB,\
+           2.5 * MB,\
+           3.0 * MB,\
+           3.5 * MB,\
+           4.5 * MB,\
+           5.0 * MB,\
+           5.5 * MB,\
+           6.0 * MB,\
+           6.5 * MB,\
+           7.0 * MB,\
+           7.5 * MB,\
+           8.0 * MB,\
+           8.5 * MB,\
+           9.0 * MB,\
+           9.5 * MB,\
+           10.0* MB\
+]
 num_keys = [str(x) for x in num_keys]
 
 def get_option():
@@ -36,10 +55,10 @@ def call_program(p, mode):
         memory.append(int(words[1].replace('bytes', '')))
     with open(os.path.basename(p) + '-' + mode + '.csv', 'w') as f:
         print('keys,\ttime,\tmemory')
-        f.write('keys,time\n')
+        f.write('keys,time,memory\n')
         for e in zip(num_keys, time, memory):
             print('{}, {}, {}'.format(e[0], e[1], e[2]))
-            f.write('{}, {}\n'.format(e[0], e[1]))
+            f.write('{}, {}, {}\n'.format(e[0], e[1], e[2]))
 
 def mode_test(p, mode):
     if mode == 'all':

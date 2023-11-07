@@ -64,7 +64,7 @@ class rwlock
             do
             {
                 int expected = count_.load(std::memory_order_relaxed);
-                if(expected == -1)
+                if(expected < 0)
                 { // write lock is held
                     continue;
                 }

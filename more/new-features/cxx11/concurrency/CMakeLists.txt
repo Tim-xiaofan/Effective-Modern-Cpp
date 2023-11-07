@@ -8,3 +8,5 @@ add_subdirectory(mutex)
 add_subdirectory(condition_variable)
 add_subdirectory(atomic)
 add_subdirectory(data_struct)
+
+add_subdirectory(lockfree)

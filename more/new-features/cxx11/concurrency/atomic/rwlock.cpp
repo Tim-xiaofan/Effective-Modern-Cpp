@@ -60,15 +60,19 @@ class rwlock
 
 		void read_lock()
 		{
-			int expected = count_.load(std::memory_order_relaxed);
-			int new_count = expected + 1;
-			while(!count_.compare_exchange_weak(expected,
-						new_count,
-						std::memory_order_acquire,
-						std::memory_order_relaxed))
-			{
-				new_count = expected + 1;
-			}
+            bool success = false;
+            do
+            {
+                int expected = count_.load(std::memory_order_relaxed);
+                if(expected == -1)
+                { // write lock is held
+                    continue;
+                }
+                success = count_.compare_exchange_weak(expected,
+                            expected + 1,
+                            std::memory_order_acquire,
+                            std::memory_order_relaxed);
+            }while(!success);
 		}
 
 		void read_unlock()

@@ -1,4 +1,4 @@
-project(examples)
+project(spinlock)
 
 cmake_minimum_required(VERSION 3.0)
 
